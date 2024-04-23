@@ -19,4 +19,20 @@ public class AlunoService {
         return alunoRepository.findAll();
     }
 
+
+    public Aluno save(Aluno aluno) {
+        return alunoRepository.save(aluno);
+    }
+
+
+    public Aluno findById(int id) {
+        return alunoRepository.findById(id).get();
+    }
+
+
+    public boolean delete(int id) {
+        alunoRepository.deleteById(id);
+        return true;
+    }
+
 }

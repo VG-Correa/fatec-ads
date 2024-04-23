@@ -7,6 +7,8 @@ import com.restapifatec.ads.model.Aluno;
 import com.restapifatec.ads.repository.AlunoRepository;
 import com.restapifatec.ads.service.AlunoService;
 
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,16 +33,40 @@ public class AlunoController {
     }
 
     @PostMapping("")
-    public ResponseEntity<String> postAluno(@RequestBody MultiValueMap<String, String> request) {
+    public ResponseEntity<Aluno> postAluno(@RequestBody MultiValueMap<String, String> request) {
 
-        System.out.println(request.getFirst("nome"));
+        Aluno aluno = new Aluno();
+        aluno.setId(Integer.parseInt(request.getFirst("id")));
+        aluno.setNome(request.getFirst("nome"));
+        aluno.setIdade(Integer.parseInt(request.getFirst("idade")));
+        aluno.setMatriculado(Boolean.parseBoolean(request.getFirst("matriculado")));
+        aluno.setCurso(request.getFirst("curso"));
+        
+        aluno = alunoService.save(aluno);
 
-
-
-        return null;
+        return ResponseEntity.ok().body(aluno);
 
     }
 
+    @PostMapping("update")
+    @Transactional
+    public ResponseEntity<Aluno> updateAluno(@RequestBody MultiValueMap<String, String> request) {
+        Aluno aluno = alunoService.findById(Integer.parseInt(request.getFirst("id")));
+        aluno.setNome(request.getFirst("nome"));
+        aluno.setIdade(Integer.parseInt(request.getFirst("idade")));
+        aluno.setMatriculado(Boolean.parseBoolean(request.getFirst("matriculado")));
+        aluno.setCurso(request.getFirst("curso"));
+    
+        return ResponseEntity.ok().body(aluno);
+    }
 
+    @PostMapping("delete")
+    public String deleteAluno(@RequestBody MultiValueMap<String, String> request) {
+        if(alunoService.delete(Integer.parseInt(request.getFirst("id")))) {
+            return "Aluon deletado";
+        } else {
+            return "Erro ao deletar usuario";
+        }
+    }
 
 }

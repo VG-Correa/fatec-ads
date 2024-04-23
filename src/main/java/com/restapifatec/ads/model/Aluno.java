@@ -21,21 +21,10 @@ public class Aluno {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private int id;
     private String nome;
     private int idade;
-
-    @ManyToOne
-    @JoinColumn(name = "curso_id")
-    private Curso curso;
     private boolean matriculado;
-    
-    @OneToMany
-    @JoinColumn(name = "aluno_id")
-    private List<Nota> notas = new ArrayList<>();
-
-    @OneToOne
-    @JoinColumn(name = "endereco_id")
-    private Endereco Endereco;
+    private String curso;
 
 }

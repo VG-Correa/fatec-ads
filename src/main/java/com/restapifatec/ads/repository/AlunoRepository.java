@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.restapifatec.ads.model.Aluno;
 
 @Repository
-public interface AlunoRepository extends JpaRepository<Aluno, Long>{
+public interface AlunoRepository extends JpaRepository<Aluno, Integer>{
     
     
 }
